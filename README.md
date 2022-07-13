@@ -1,6 +1,10 @@
-# OpenEthereum
+# OpenEthereum node with DisPOS consensus
 
-Fast and feature-rich multi-network Ethereum client.
+DisPOS means Distrubuted Proof of Stake  [there more about DisPOS] (https://github.com/stanta/dispos) 
+
+Crate with DisPOS realization named (surprise!!! ) dispos ;-).
+
+DisPOS node  based on OpenEthereum - fast and feature-rich multi-network Ethereum client.
 
 [» Download the latest release «](https://github.com/openethereum/openethereum/releases/latest)
 

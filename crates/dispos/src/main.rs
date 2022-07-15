@@ -1,4 +1,10 @@
-mod transactions;
+/* use crate::{
+    transactions::{AddResult, Transactions},
+}; */
+use std::io::BufReader;
+use std::fs::File;
+use std::collections::HashMap;
+
 /**  What to do
  (look https://github.com/stanta/dispos/raw/main/DisPOS.jpg )
 Step 1
@@ -20,12 +26,32 @@ Step 6
 If all checks are passed, the transaction is included in the receiving blockchain.
 */
 
- 
-pub struct TXRoutes {
-    prefix: string,
-    endpoint: string
+/* pub struct TXRoutes {
+    pub prefix: transaction,
+    pub endpoint: Vec<u32>,
 }
 
-fn main() {
+ */
+/* pub fn tx_route_hook (transaction: _income_tx ) -> TXRoutes {
+
+} */
+
+pub fn load_routes (input_file_name: String) -> HashMap<String, String> {
+    
+    let mut tx_route: HashMap<String, String> = HashMap::new();
+    let input_file = File::open(input_file_name);
+    let reader = BufReader::new(input_file);
+    for line in reader.lines() {
+        let s = line.unwrap().to_string();
+        let tok:(str, str) = s.split(&d).collect();
+        tx_route.insert(tok.0, tok.1);
+
+    }
+    format ("{:?}", tx_route)
+}
+
+pub fn main() {
+    let mut tx_routes =  load_routes ("routes.csv");
+ //   tx_routes.insert("0".to_string(), "https://mainnet.infura.io/v3/e48719b96ea6487b974b72a871e5aa48");
     // println!("Hello, world!");
 }

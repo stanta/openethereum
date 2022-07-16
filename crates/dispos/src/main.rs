@@ -1,7 +1,7 @@
 /* use crate::{
     transactions::{AddResult, Transactions},
 }; */
-use std::io::BufReader;
+use std::io::{BufReader, BufRead};
 use std::fs::File;
 use std::collections::HashMap;
 
@@ -35,23 +35,51 @@ If all checks are passed, the transaction is included in the receiving blockchai
 /* pub fn tx_route_hook (transaction: _income_tx ) -> TXRoutes {
 
 } */
+/* fn load_file(input_file_name: String) -> std::io::Result<()> {
+    let f = File::open(input_file_name)?;
+    let mut reader = BufReader::new(f);
+    assert!(reader.buffer().is_empty());
 
+    if reader.fill_buf()?.len() > 0 {
+        assert!(!reader.buffer().is_empty());
+    }
+    Ok(())
+}
+ */
 pub fn load_routes (input_file_name: String) -> HashMap<String, String> {
     
     let mut tx_route: HashMap<String, String> = HashMap::new();
-    let input_file = File::open(input_file_name);
-    let reader = BufReader::new(input_file);
+    
+    // let file_data =load_file(input_file_name);
+/*     let reader =  match file_data {
+        Ok(data) => data,
+        Err(error) => panic!("Problem loading from file : {:?}", error),
+    }; */
+    let f = File::open(input_file_name);
+    let f = match f {
+        Ok(file) => file,
+        Err(error) => panic!("Problem opening the file: {:?}", error),
+    };
+    let  reader = BufReader::new(f);
+/*     assert!(reader.buffer().is_empty());
+
+    if reader.fill_buf()?.len() > 0 {
+        assert!(!reader.buffer().is_empty());
+    } */
     for line in reader.lines() {
         let s = line.unwrap().to_string();
-        let tok:(str, str) = s.split(&d).collect();
-        tx_route.insert(tok.0, tok.1);
+        let mut iter = s.splitn(2, ' ');
+        let prefix = iter.next().unwrap();
+        let endpoint = iter.next().unwrap();
+        tx_route.insert(prefix.to_string(), endpoint.to_string());
 
     }
-    format ("{:?}", tx_route)
+    //format! ("{HashMap<String, String>}", tx_route)
+    tx_route
 }
 
 pub fn main() {
-    let mut tx_routes =  load_routes ("routes.csv");
+    let tx_routes =  load_routes ("../routes.csv".to_string());
  //   tx_routes.insert("0".to_string(), "https://mainnet.infura.io/v3/e48719b96ea6487b974b72a871e5aa48");
     // println!("Hello, world!");
 }
